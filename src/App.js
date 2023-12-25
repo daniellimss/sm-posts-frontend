@@ -8,11 +8,11 @@ import PostsListings from './components/PostsListings';
 
 function App() {
   const [posts, setPosts] = useState([]);
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+
   const [editTitle, setEditTitle] = useState("");
   const [editContent, setEditContent] = useState("");
   const [newPost, setNewPost] = useState(false);
+
 
 
   //CRUD - Read / Get all posts:
@@ -25,6 +25,9 @@ function App() {
     fetchPosts();
   }, [posts]);
 
+
+
+
   return (
     <div className="App">
       <div className="app-wrapper">
@@ -32,25 +35,13 @@ function App() {
       </div>
 
       <div>
-        <PostsListings posts={posts} title={title} content={content} />
+        <PostsListings posts={posts} title={posts.title} content={posts.content} />
       </div>
       <button className="newpost-btn" onClick={() => setNewPost(true)}>Create New Post</button>
       <br />
       {
-        newPost ? <Form
-          /* title={title}
-          content={content}
-          setTitle={setTitle}
-          setContent={setContent}
-          editTitle={editTitle}
-          setEditTitle={setEditTitle}
-          editContent={editContent}
-          setEditContent={setEditContent} */
-          postId={posts.id}
-        /> : null
+        newPost ? <Form postId={posts.id} /> : null
       }
-
-
     </div>
   );
 }
