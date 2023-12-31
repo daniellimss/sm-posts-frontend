@@ -1,41 +1,44 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 
-const Form = ({ posts, setPosts, postId, editTitle, setEditTitle, editContent, setEditContent }) => {
+const Form = ({ postId, posts, setPosts, editPost }) => {
 	const [title, setTitle] = useState("");
 	const [content, setContent] = useState("");
 
 
 	const onFormSubmit = (e) => {
 		e.preventDefault();
-		//CRUD - Add new post:
-		const newPosting = async () => {
-			const newPosting = {
-				title,
-				content
-			}
-			console.log(newPosting);
-			const newPostData = await axios.post(`http://localhost:8000/posts/newpost`, newPosting)
-			console.log(newPostData)
-			/* 	setPosts([...posts, newPostData]) */
-		}
-		newPosting();
-		setTitle("");
-		setContent("");
 
-
-		//CRUD - Update post:
-		/* const updatedPost = async () => {
-			const updatedPost = {
-				title: editTitle,
-				content: editContent
+		if (editPost) {
+			//CRUD - Update post:
+			const updatedPost = async () => {
+				const updatedPost = {
+					title,
+					content
+				}
+				const res = await axios.put(`http://localhost:8000/posts/${postId}/edit`, updatedPost)
+				console.log(res)
 			}
-			const res = await axios.put(`http://localhost:8000/posts/${postId}/edit`, updatedPost)
-			console.log(res)
+			updatedPost();
+			/* setTitle("");
+			setContent(""); */
+		} else {
+			//CRUD - Add new post:
+			const newPosting = async () => {
+				const newPosting = {
+					title,
+					content
+				}
+				console.log(newPosting);
+				const newPostData = await axios.post(`http://localhost:8000/posts/newpost`, newPosting)
+				console.log(newPostData)
+				/* 	setPosts([...posts, newPostData]) */
+			}
+			newPosting();
+			setTitle("");
+			setContent("");
 		}
-		updatedPost(); */
-		/* setTitle("");
-		setContent(""); */
+
 	}
 
 	return (
@@ -57,7 +60,7 @@ const Form = ({ posts, setPosts, postId, editTitle, setEditTitle, editContent, s
 				onChange={(e) => setContent(e.target.value)}
 			/>
 			<button className="button-add" type="submit">{
-				editTitle || editContent ? "Update" : "Add"
+				editPost ? "Update" : "Add"
 			}</button>
 		</form>
 	)

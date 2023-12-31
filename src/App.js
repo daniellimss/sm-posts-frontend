@@ -6,14 +6,11 @@ import Header from './components/Header';
 import Form from './components/Form';
 import PostsListings from './components/PostsListings';
 
+
 function App() {
   const [posts, setPosts] = useState([]);
 
-  const [editTitle, setEditTitle] = useState("");
-  const [editContent, setEditContent] = useState("");
   const [newPost, setNewPost] = useState(false);
-
-
 
   //CRUD - Read / Get all posts:
   useEffect(() => {
@@ -23,7 +20,7 @@ function App() {
       setPosts(res.data.listings);
     }
     fetchPosts();
-  }, [posts]);
+  }, []);
 
 
 
@@ -40,7 +37,7 @@ function App() {
       <button className="newpost-btn" onClick={() => setNewPost(true)}>Create New Post</button>
       <br />
       {
-        newPost ? <Form postId={posts.id} /> : null
+        newPost ? <Form posts={posts} /> : null
       }
     </div>
   );
