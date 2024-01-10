@@ -5,7 +5,6 @@ const Form = ({ postId, posts, setPosts, editPost }) => {
 	const [title, setTitle] = useState("");
 	const [content, setContent] = useState("");
 
-
 	const onFormSubmit = (e) => {
 		e.preventDefault();
 
@@ -18,10 +17,11 @@ const Form = ({ postId, posts, setPosts, editPost }) => {
 				}
 				const res = await axios.put(`http://localhost:8000/posts/${postId}/edit`, updatedPost)
 				console.log(res)
+				console.log(res.data)
 			}
 			updatedPost();
-			/* setTitle("");
-			setContent(""); */
+			setTitle("");
+			setContent("");
 		} else {
 			//CRUD - Add new post:
 			const newPosting = async () => {
@@ -32,13 +32,13 @@ const Form = ({ postId, posts, setPosts, editPost }) => {
 				console.log(newPosting);
 				const newPostData = await axios.post(`http://localhost:8000/posts/newpost`, newPosting)
 				console.log(newPostData)
-				/* 	setPosts([...posts, newPostData]) */
+				console.log(newPostData.data.id) //this is the id of the new post
+				/* setPosts([...posts, { title, content }]) */
 			}
 			newPosting();
 			setTitle("");
 			setContent("");
 		}
-
 	}
 
 	return (
@@ -59,7 +59,7 @@ const Form = ({ postId, posts, setPosts, editPost }) => {
 				type="text"
 				onChange={(e) => setContent(e.target.value)}
 			/>
-			<button className="button-add" type="submit">{
+			<button className="button-add" type="submit" value={postId}>{
 				editPost ? "Update" : "Add"
 			}</button>
 		</form>

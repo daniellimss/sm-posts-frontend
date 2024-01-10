@@ -9,7 +9,6 @@ import PostsListings from './components/PostsListings';
 
 function App() {
   const [posts, setPosts] = useState([]);
-
   const [newPost, setNewPost] = useState(false);
 
   //CRUD - Read / Get all posts:
@@ -20,9 +19,7 @@ function App() {
       setPosts(res.data.listings);
     }
     fetchPosts();
-  }, []);
-
-
+  }, [posts]);
 
 
   return (
@@ -30,9 +27,8 @@ function App() {
       <div className="app-wrapper">
         <Header />
       </div>
-
       <div>
-        <PostsListings posts={posts} title={posts.title} content={posts.content} />
+        <PostsListings posts={posts} />
       </div>
       <button className="newpost-btn" onClick={() => setNewPost(true)}>Create New Post</button>
       <br />
